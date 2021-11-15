@@ -56,9 +56,7 @@ Update the specified pipeline using the given parameters. Unless specified other
     [Learn More](https://docs.aws.amazon.com/kms/latest/developerguide/services-s3.html)
 8. Stages (Text) **Required if 'Don't Override' is false** - An array of stages of actions to perform in the pipeline. Can be provided as json string or as an array from code.
     [Learn More](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#pipeline-requirements)
-9. Tags (Text) **Optional** - If specified, tag the pipeline with the tags specified. Each tag should either be in the format of Key=Value or just Key. To enter multiple values separate each with a new line. Also accepts getting an array of objects in the form of { Key, Value } or { Key }.
-    [Learn More](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-tag-repository.html)
-10. Don't Override (Boolean) **Optional** - If true, get the original pipeline object and only update the parameters provided in this action. If false update all pipeline fields, all fields not provided will be updated to be empty.
+9. Don't Override (Boolean) **Optional** - If true, get the original pipeline object and only update the parameters provided in this action. If false update all pipeline fields, all fields not provided will be updated to be empty.
 
 ## Method: Update Pipeline From JSON
 Update an AWS pipeline using the provided pipeline parameters JSON object.
