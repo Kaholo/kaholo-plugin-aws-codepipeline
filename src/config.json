@@ -1,0 +1,491 @@
+{
+  "name": "AWS-CodePipeline",
+  "type": "executer",
+  "imgUrl": "logo.png",
+  "execProgram": "node",
+  "main": "app.js",
+  "version": "1.0.0",
+  "description": "Integration with AWS CodePipeline API.",
+  "category": "CI-CD",
+  "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
+  "settings": [
+    {
+      "name": "accessKeyId",
+      "viewName": "Access key",
+      "type": "string",
+      "description": "The default Access Key ID to use to authenticate to AWS.",
+      "placeholder": "AKIAIOSFODNN7EXAMPLE",
+      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+    },
+    {
+      "name": "secretAccessKey",
+      "viewName": "Secret key",
+      "type": "vault",
+      "description": "The default Access Key Secret to use to authenticate to AWS.",
+      "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+    },
+    {
+      "name": "region",
+      "viewName": "Region",
+      "type": "string",
+      "description": "The default AWS region to make requests on.",
+      "placeholder": "us-east-2",
+      "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+    }
+  ],
+  "methods": [
+    {
+      "name": "createPipeline",
+      "viewName": "Create Pipeline",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "name",
+          "viewName": "Name",
+          "type": "string",
+          "description": "The name of the new pipeline to create.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        },
+        {
+          "name": "role",
+          "viewName": "Role",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRolesAuto",
+          "description": "A role to assign to the pipeline that allows AWS CodePipeline to act on the user's behalf when interacting with AWS services.",
+          "placeholder": "admin",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html"
+        },
+        {
+          "name": "artifactsBucket",
+          "viewName": "Artifacts S3 Bucket",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listS3BucketsAuto",
+          "description": "A s3 bucket to store inside all artifacts created from the pipeline.",
+          "placeholder": "mybucket",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials-simple-s3.html#s3-create-s3-bucket"
+        },
+        {
+          "name": "encryptionKey",
+          "viewName": "Artifacts Encryption Key",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listKmsKeysAuto",
+          "description": "The encryption key used to encrypt the data in the artifact store. If this is undefined, the default key for Amazon S3 is used.",
+          "placeholder": "mykey",
+          "learnUrl": "https://docs.aws.amazon.com/kms/latest/developerguide/services-s3.html"
+        },
+        {
+          "name": "stages",
+          "viewName": "Stages",
+          "type": "text",
+          "description": "An array of stages of actions to perform in the pipeline. Can be provided as json string or as an array from code.",
+          "placeholder": "[ \n { \n \"name\": \"Source\", \n \"actions\": [ \n  { \n  \"inputArtifacts\": [], \n  \"name\": \"Source\", \n  \"actionTypeId\": { \n   \"category\": \"Source\", \n   \"owner\": \"AWS\", \n   \"version\": \"1\", \n   \"provider\": \"S3\" \n  }, \n  \"outputArtifacts\": [{\"name\": \"MyApp\"}], \n  \"configuration\": { \n   \"S3Bucket\": \"<bucket-name>\", \n   \"S3ObjectKey\": \"<source-code-file-name.zip>\" \n  }, \n  \"runOrder\": 1 \n  } \n ] \n }, \n { \n \"name\": \"Build\", \n \"actions\": [ \n  { \n  \"inputArtifacts\": [{\"name\": \"MyApp\"}], \n  \"name\": \"Build\", \n  \"actionTypeId\": { \n   \"category\": \"Build\", \n   \"owner\": \"AWS\", \n   \"version\": \"1\", \n   \"provider\": \"CodeBuild\" \n  }, \n  \"outputArtifacts\": [{\"name\": \"default\"}], \n  \"configuration\": {\"ProjectName\": \"<build-project-name>\"}, \n  \"runOrder\": 1 \n  } \n ] \n } \n]",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#pipeline-requirements"
+        },
+        {
+          "name": "tags",
+          "viewName": "Tags",
+          "type": "text",
+          "description": "If specified, tag the pipeline with the tags specified. Each tag should either be in the format of Key=Value or just Key. To enter multiple values separate each with a new line. Also accepts getting an array of objects in the form of { Key, Value } or { Key }.",
+          "placeholder": "DEV_APPS\nAuthor=My Name",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-tag-repository.html"
+        }
+      ]
+    },
+    {
+      "name": "createPipelineFromJson",
+      "viewName": "Create Pipeline From JSON",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipelineJson",
+          "viewName": "Pipeline JSON",
+          "type": "string",
+          "description": "The pipeline parameters object of the pipeline to create. Can specify either the path of a local json file on your agent, or provide the content of the json as a javascript object from code.",
+          "placeholder": "/home/user/pipelineApp.json",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#pipeline-requirements"
+        }
+      ]
+    },
+    {
+      "name": "updatePipeline",
+      "viewName": "Update Pipeline",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipeline",
+          "viewName": "Pipeline",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listPipelinesAuto",
+          "description": "The pipeline to update.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        },
+        {
+          "name": "role",
+          "viewName": "Role",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRolesAuto",
+          "description": "A role to assign to the pipeline that allows AWS CodePipeline to act on the user's behalf when interacting with AWS services.",
+          "placeholder": "admin",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html"
+        },
+        {
+          "name": "artifactsBucket",
+          "viewName": "Artifacts S3 Bucket",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listS3BucketsAuto",
+          "description": "A s3 bucket to store inside all artifacts created from the pipeline.",
+          "placeholder": "mybucket",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials-simple-s3.html#s3-create-s3-bucket"
+        },
+        {
+          "name": "encryptionKey",
+          "viewName": "Artifacts Encryption Key",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listKmsKeysAuto",
+          "description": "The encryption key used to encrypt the data in the artifact store. If this is undefined, the default key for Amazon S3 is used.",
+          "placeholder": "mykey",
+          "learnUrl": "https://docs.aws.amazon.com/kms/latest/developerguide/services-s3.html"
+        },
+        {
+          "name": "stages",
+          "viewName": "Stages",
+          "type": "text",
+          "description": "An array of stages of actions to perform in the pipeline. Can be provided as json string or as an array from code.",
+          "placeholder": "[ \n { \n \"name\": \"Source\", \n \"actions\": [ \n  { \n  \"inputArtifacts\": [], \n  \"name\": \"Source\", \n  \"actionTypeId\": { \n   \"category\": \"Source\", \n   \"owner\": \"AWS\", \n   \"version\": \"1\", \n   \"provider\": \"S3\" \n  }, \n  \"outputArtifacts\": [{\"name\": \"MyApp\"}], \n  \"configuration\": { \n   \"S3Bucket\": \"<bucket-name>\", \n   \"S3ObjectKey\": \"<source-code-file-name.zip>\" \n  }, \n  \"runOrder\": 1 \n  } \n ] \n }, \n { \n \"name\": \"Build\", \n \"actions\": [ \n  { \n  \"inputArtifacts\": [{\"name\": \"MyApp\"}], \n  \"name\": \"Build\", \n  \"actionTypeId\": { \n   \"category\": \"Build\", \n   \"owner\": \"AWS\", \n   \"version\": \"1\", \n   \"provider\": \"CodeBuild\" \n  }, \n  \"outputArtifacts\": [{\"name\": \"default\"}], \n  \"configuration\": {\"ProjectName\": \"<build-project-name>\"}, \n  \"runOrder\": 1 \n  } \n ] \n } \n]",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#pipeline-requirements"
+        },
+        {
+          "name": "dontOverride",
+          "viewName": "Don't Override",
+          "type": "boolean",
+          "description": "If true, get the original pipeline object and only update the parameters provided in this action. If false update all pipeline fields, all fields not provided will be updated to be empty."
+        }
+      ]
+    },
+    {
+      "name": "updatePipelineFromJson",
+      "viewName": "Update Pipeline From JSON",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipelineJson",
+          "viewName": "Pipeline JSON",
+          "type": "string",
+          "description": "The pipeline parameters object of the pipeline to update. Can specify either the path of a local json file on your agent, or provide the content of the json as a javascript object from code.",
+          "placeholder": "/home/user/pipelineApp.json",
+          "learnUrl": "https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#pipeline-requirements"
+        }
+      ]
+    },
+    {
+      "name": "deletePipeline",
+      "viewName": "Delete Pipeline",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipeline",
+          "viewName": "Pipeline",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listPipelinesAuto",
+          "description": "The pipeline to delete.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        }
+      ]
+    },
+    {
+      "name": "startPipelineExecution",
+      "viewName": "Begin Pipeline Execution",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipeline",
+          "viewName": "Pipeline",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listPipelinesAuto",
+          "description": "The pipeline to execute.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        }
+      ]
+    },
+    {
+      "name": "getPipeline",
+      "viewName": "Get Pipeline",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipeline",
+          "viewName": "Pipeline",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listPipelinesAuto",
+          "description": "The pipeline to get information about.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        }
+      ]
+    },
+    {
+      "name": "getPipelineState",
+      "viewName": "Get Pipeline State",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "pipeline",
+          "viewName": "Pipeline",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listPipelinesAuto",
+          "description": "The pipeline to return information about his and his actions states.",
+          "placeholder": "mypipeline",
+          "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html"
+        }
+      ]
+    },
+    {
+      "name": "listPipelines",
+      "viewName": "List Pipelines",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        }
+      ]
+    }
+  ]
+}

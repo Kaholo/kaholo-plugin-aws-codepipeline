@@ -1,0 +1,14 @@
+{
+	"name": "kaholo-plugin-aws-codepipeline",
+	"version": "1.0.0",
+	"description": "Kaholo plugin for integration with AWS CodePipeline API.",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Kaholo Group",
+	"license": "ISC",
+	"dependencies": {
+		"aws-sdk": "^2.1028.0"
+	}
+}
