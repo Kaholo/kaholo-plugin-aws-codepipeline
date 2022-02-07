@@ -8,6 +8,7 @@ module.exports = class CodePipelineService{
         const creds = {accessKeyId, secretAccessKey, region};
         this.creds = creds;
         this.codePipeline = new AWS.CodePipeline(creds);
+        this.lightsail = new AWS.Lightsail(creds);
     }
 
     static from(params, settings){
@@ -17,7 +18,7 @@ module.exports = class CodePipelineService{
             region: parsers.autocomplete(params.region || settings.region)
         });
     }
-    
+
     async createPipeline({name, role, artifactsBucket, encryptionKey, stages, tags}){
         if (!name || !role || !artifactsBucket || !stages || !stages.length){
             throw "One of the required parameters wasn't provided.";
@@ -34,16 +35,16 @@ module.exports = class CodePipelineService{
                     } : undefined
                 },
                 name, stages
-            }, 
+            },
             tags
         })).promise();
     }
-    
+
     async createPipelineFromJson(pipelineBody){
         if (!pipelineBody) throw "Must provide pipeline JSON to create the pipeline from.";
         return this.codePipeline.createPipeline(pipelineBody).promise();
     }
-    
+
     async updatePipeline({pipeline, role, artifactsBucket, encryptionKey, stages, dontOverride}){
         if (dontOverride){
             if (!pipeline || !(role || artifactsBucket || encryptionKey || stages)){
@@ -71,32 +72,32 @@ module.exports = class CodePipelineService{
                         id: encryptionKey,
                         type: "KMS"
                     } : undefined
-                }, 
+                },
                 stages
             }
         })).promise();
     }
-    
+
     async updatePipelineFromJson(pipelineBody){
         if (!pipelineBody) throw "Must provide pipeline JSON to update the pipeline from.";
         return this.codePipeline.updatePipeline(pipelineBody).promise();
     }
-    
+
     async deletePipeline({pipeline}){
         if (!pipeline) throw "Must specify pipeline to delete.";
         return this.codePipeline.deletePipeline({name: pipeline}).promise();
     }
-    
+
     async startPipelineExecution({pipeline}){
         if (!pipeline) throw "Must specify pipeline to execute.";
         return this.codePipeline.startPipelineExecution({name: pipeline}).promise();
     }
-    
+
     async getPipeline({pipeline}){
         if (!pipeline) throw "Must specify pipeline!";
         return this.codePipeline.getPipeline({name: pipeline}).promise();
     }
-    
+
     async getPipelineState({pipeline}){
         if (!pipeline) throw "Must specify pipeline!";
         return this.codePipeline.getPipelineState({name: pipeline}).promise();
@@ -117,27 +118,27 @@ module.exports = class CodePipelineService{
         }
         return items;
     }
-    
+
     async listRegions(){
         const ec2 = new AWS.EC2(this.creds);
         return ec2.describeRegions({}).promise();
     }
-    
+
     async listRoles({nextToken}){
         const iam = new AWS.IAM(this.creds);
         return iam.listRoles({Marker: nextToken}).promise();
     }
-    
+
     async listS3Buckets(){
         const s3 = new AWS.S3(this.creds);
         return s3.listBuckets().promise();
     }
-    
+
     async listKmsKeys({nextToken}){
         const kms = new AWS.KMS(this.creds);
         return kms.listKeys({Marker: nextToken}).promise();
     }
-    
+
     async listPipelines({nextToken, listAll}){
         if (listAll) return this.listAll("listPipelines", "pipelines", {nextToken});
         return this.codePipeline.listPipelines({nextToken}).promise();

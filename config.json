@@ -71,7 +71,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -157,7 +157,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -197,7 +197,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -283,7 +283,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -323,7 +323,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -365,7 +365,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -407,7 +407,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -449,7 +449,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
@@ -491,7 +491,7 @@
           "viewName": "Region",
           "type": "autocomplete",
           "autocompleteType": "function",
-          "functionName": "listRegionsAuto",
+          "functionName": "listRegions",
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
