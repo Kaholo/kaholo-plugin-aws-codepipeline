@@ -1,6 +1,6 @@
 {
 	"name": "kaholo-plugin-aws-codepipeline",
-	"version": "1.0.0",
+	"version": "1.0.4",
 	"description": "Kaholo plugin for integration with AWS CodePipeline API.",
 	"main": "app.js",
 	"scripts": {
