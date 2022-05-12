@@ -24,7 +24,7 @@ async function fetchRecursively(awsClient, fetchOptions = {}, payload = {}) {
 
 function parseAwsTags(tagsInput) {
   if (_.isNil(tagsInput)) {
-    return tagsInput;
+    return [];
   }
 
   if (_.isArray(tagsInput)) {
