@@ -1,10 +1,11 @@
 {
   "name": "AWS-CodePipeline",
+  "viewName": "AWS CodePipeline",
   "type": "executer",
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Integration with AWS CodePipeline API.",
   "category": "CI/CD",
   "keywords": [
