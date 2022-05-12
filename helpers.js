@@ -55,6 +55,13 @@ function mapEntryToAwsTag([entryKey, entryValue]) {
   return { Key: entryKey, Value: entryValue };
 }
 
+function removeWhitespaceAndSplitLines(text) {
+  return text
+    .trim()
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
 
 async function resolveJsonConfigurationParam(jsonConfigParam) {
   if (_.isPlainObject(jsonConfigParam)) {
@@ -101,10 +108,14 @@ function mergePipelineConfigurations(originalConfig, newConfig) {
 
   mergedConfig.pipeline.roleArn = newConfig.pipeline.roleArn || originalConfig.pipeline.roleArn;
   mergedConfig.pipeline.stages = newConfig.pipeline.stages || originalConfig.pipeline.stages;
-  mergedConfig.pipeline.artifactStore.artifactsBucket = newConfig.pipeline.artifactStore.artifactsBucket || originalConfig.pipeline.artifactStore.location;
+  mergedConfig.pipeline.artifactStore.artifactsBucket = (
+    newConfig.pipeline.artifactStore.artifactsBucket
+    || originalConfig.pipeline.artifactStore.location
+  );
   if (originalConfig.pipeline.artifactStore.encryptionKey) {
     mergedConfig.pipeline.artifactStore.encryptionKey = (
-      newConfig.pipeline.artifactStore.encryptionKey || originalConfig.pipeline.artifactStore.encryptionKey
+      newConfig.pipeline.artifactStore.encryptionKey
+      || originalConfig.pipeline.artifactStore.encryptionKey
     );
   }
 
@@ -116,4 +127,4 @@ module.exports = {
   resolveJsonConfigurationParam,
   mergePipelineConfigurations,
   fetchRecursively,
-}
+};

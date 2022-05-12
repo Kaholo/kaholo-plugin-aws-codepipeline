@@ -1,16 +1,16 @@
-const { parseAwsTags, resolveJsonConfigurationParam } = require("./helpers")
+const { parseAwsTags, resolveJsonConfigurationParam } = require("./helpers");
 
 function prepareCreatePipelinePayload(params) {
   validateStagesParameter(params.stages);
 
   const artifactStore = {
-    location: artifactsBucket,
-    type: "S3"
-  }
+    location: params.artifactsBucket,
+    type: "S3",
+  };
   if (params.encryptionKey) {
     artifactStore.encryptionKey = {
-      id: encryptionKey,
-      type: "KMS"
+      id: params.encryptionKey,
+      type: "KMS",
     };
   }
 
@@ -42,24 +42,24 @@ function prepareUpdatePipelinePayload(params) {
   validateStagesParameter(params.stages);
 
   const artifactStore = {
-    location: artifactsBucket,
+    location: params.artifactsBucket,
     type: "S3",
-  }
+  };
   if (params.encryptionKey) {
     artifactStore.encryptionKey = {
-      id: encryptionKey,
-      type: "KMS"
+      id: params.encryptionKey,
+      type: "KMS",
     };
   }
 
-  return payload = {
+  return {
     pipeline: {
       name: params.pipeline,
       roleArn: params.role,
       stages: params.stages,
       artifactStore,
-    }
-  }
+    },
+  };
 }
 
 function prepareJsonPipelineRelatedPayload(params) {
@@ -68,13 +68,12 @@ function prepareJsonPipelineRelatedPayload(params) {
 
 function preparePipelineParameterRelatedPayload(params) {
   return {
-    name: params.pipeline
-  }
+    name: params.pipeline,
+  };
 }
 
 module.exports = {
   prepareCreatePipelinePayload,
-  prepareCreatePipelineFromJsonPayload,
   prepareUpdatePipelinePayload,
   prepareJsonPipelineRelatedPayload,
   preparePipelineParameterRelatedPayload,

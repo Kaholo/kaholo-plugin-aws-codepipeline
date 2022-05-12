@@ -31,5 +31,5 @@ module.exports = {
   listRolesAuto: createAwsAutocompleteFunction("listRoles", "Roles", ["Arn", "RoleName"]),
   listS3BucketsAuto: createAwsAutocompleteFunction("listS3Buckets", "Buckets", ["Name"]),
   listKmsKeysAuto: createAwsAutocompleteFunction("listKmsKeys", "Keys", ["KeyId"]),
-  listPipelinesAuto: createAwsAutocompleteFunction("listPipelines", "pipelines", ["name"])
-}
+  listPipelinesAuto: createAwsAutocompleteFunction("listPipelines", "pipelines", ["name"]),
+};

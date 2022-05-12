@@ -2,7 +2,7 @@ const awsPluginLibrary = require("kaholo-aws-plugin-library");
 const AWS = require("aws-sdk");
 const payloadFunctions = require("./payload-functions");
 const { mergePipelineConfigurations, fetchRecursively } = require("./helpers");
-const autocomplete = require("./autocomplete")
+const autocomplete = require("./autocomplete");
 
 const simpleAwsMethods = {
   createPipeline: awsPluginLibrary.generateAwsMethod("createPipeline", payloadFunctions.prepareCreatePipelinePayload),
@@ -14,25 +14,27 @@ const simpleAwsMethods = {
   getPipelineState: awsPluginLibrary.generateAwsMethod("getPipelineState", payloadFunctions.preparePipelineParameterRelatedPayload),
 };
 
-async function updatePipeline(codePipelineClient, params){
+async function updatePipeline(codePipelineClient, params) {
   let payload = payloadFunctions.prepareUpdatePipelinePayload(params);
-  
+
   if (params.dontOverride) {
-    const existingPipeline = await codePipelineClient.getPipeline({ name: payload.pipeline.name }).promise();
+    const existingPipeline = (
+      await codePipelineClient.getPipeline({ name: payload.pipeline.name }).promise()
+    );
     payload = mergePipelineConfigurations(existingPipeline, payload);
   }
 
   return codePipelineClient.updatePipeline(payload).promise();
 }
 
-async function listPipelines(codePipelineClient, params){
+async function listPipelines(codePipelineClient) {
   const pipelines = await fetchRecursively(codePipelineClient, {
     methodName: "listPipelines",
     outputDataPath: "pipelines",
   });
 
   return { pipelines };
-} 
+}
 
 module.exports = awsPluginLibrary.bootstrap(
   AWS.CodePipeline,
