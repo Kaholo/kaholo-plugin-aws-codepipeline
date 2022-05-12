@@ -3,6 +3,7 @@ const AWS = require("aws-sdk");
 const payloadFunctions = require("./payload-functions");
 const { mergePipelineConfigurations, fetchRecursively } = require("./helpers");
 const autocomplete = require("./autocomplete");
+const { credentialKeys } = require("./consts.json");
 
 const simpleAwsMethods = {
   createPipeline: awsPluginLibrary.generateAwsMethod("createPipeline", payloadFunctions.prepareCreatePipelinePayload),
@@ -38,20 +39,36 @@ async function listPipelines(codePipelineClient) {
   return { pipelines };
 }
 
-module.exports = awsPluginLibrary.bootstrap(
-  AWS.CodePipeline,
-  {
-    ...simpleAwsMethods,
-    updatePipeline,
-    listPipelines,
-  },
-  {
-    listRegions: awsPluginLibrary.autocomplete.listRegions,
-    ...autocomplete,
-  },
-  {
-    ACCESS_KEY: "accessKeyId",
-    SECRET_KEY: "secretAccessKey",
-    REGION: "region",
-  },
-);
+module.exports = {
+  ...awsPluginLibrary.bootstrap(
+    AWS.CodePipeline,
+    {
+      ...simpleAwsMethods,
+      updatePipeline,
+      listPipelines,
+    },
+    {
+      listRegions: awsPluginLibrary.autocomplete.listRegions,
+      ...autocomplete.CodePipeline,
+    },
+    credentialKeys,
+  ),
+  ...awsPluginLibrary.bootstrap(
+    AWS.S3,
+    {},
+    autocomplete.S3,
+    credentialKeys,
+  ),
+  ...awsPluginLibrary.bootstrap(
+    AWS.IAM,
+    {},
+    autocomplete.IAM,
+    credentialKeys,
+  ),
+  ...awsPluginLibrary.bootstrap(
+    AWS.KMS,
+    {},
+    autocomplete.KMS,
+    credentialKeys,
+  ),
+};

@@ -1,7 +1,9 @@
 const { parseAwsTags, resolveJsonConfigurationParam } = require("./helpers");
 
 function prepareCreatePipelinePayload(params) {
-  validateStagesParameter(params.stages);
+  if (params.stages) {
+    validateStagesParameter(params.stages);
+  }
 
   const artifactStore = {
     location: params.artifactsBucket,
@@ -39,7 +41,9 @@ function validateStagesParameter(stages) {
 }
 
 function prepareUpdatePipelinePayload(params) {
-  validateStagesParameter(params.stages);
+  if (params.stages) {
+    validateStagesParameter(params.stages);
+  }
 
   const artifactStore = {
     location: params.artifactsBucket,

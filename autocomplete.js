@@ -28,8 +28,16 @@ function createAwsAutocompleteFunction(
 }
 
 module.exports = {
-  listRolesAuto: createAwsAutocompleteFunction("listRoles", "Roles", ["Arn", "RoleName"]),
-  listS3BucketsAuto: createAwsAutocompleteFunction("listS3Buckets", "Buckets", ["Name"]),
-  listKmsKeysAuto: createAwsAutocompleteFunction("listKmsKeys", "Keys", ["KeyId"]),
-  listPipelinesAuto: createAwsAutocompleteFunction("listPipelines", "pipelines", ["name"]),
+  IAM: {
+    listRolesAuto: createAwsAutocompleteFunction("listRoles", "Roles", ["Arn", "RoleName"]),
+  },
+  S3: {
+    listS3BucketsAuto: createAwsAutocompleteFunction("listBuckets", "Buckets", ["Name"]),
+  },
+  KMS: {
+    listKmsKeysAuto: createAwsAutocompleteFunction("listKeys", "Keys", ["KeyId"]),
+  },
+  CodePipeline: {
+    listPipelinesAuto: createAwsAutocompleteFunction("listPipelines", "pipelines", ["name"]),
+  },
 };

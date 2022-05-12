@@ -23,6 +23,10 @@ async function fetchRecursively(awsClient, fetchOptions = {}, payload = {}) {
 }
 
 function parseAwsTags(tagsInput) {
+  if (_.isNil(tagsInput)) {
+    return tagsInput;
+  }
+
   if (_.isArray(tagsInput)) {
     validateAwsTags(tagsInput);
     return tagsInput;
@@ -52,7 +56,7 @@ function validateAwsTags(tags) {
 }
 
 function mapEntryToAwsTag([entryKey, entryValue]) {
-  return { Key: entryKey, Value: entryValue };
+  return { key: entryKey, value: entryValue };
 }
 
 function removeWhitespaceAndSplitLines(text) {
@@ -108,8 +112,8 @@ function mergePipelineConfigurations(originalConfig, newConfig) {
 
   mergedConfig.pipeline.roleArn = newConfig.pipeline.roleArn || originalConfig.pipeline.roleArn;
   mergedConfig.pipeline.stages = newConfig.pipeline.stages || originalConfig.pipeline.stages;
-  mergedConfig.pipeline.artifactStore.artifactsBucket = (
-    newConfig.pipeline.artifactStore.artifactsBucket
+  mergedConfig.pipeline.artifactStore.location = (
+    newConfig.pipeline.artifactStore.location
     || originalConfig.pipeline.artifactStore.location
   );
   if (originalConfig.pipeline.artifactStore.encryptionKey) {
