@@ -53,22 +53,7 @@ module.exports = {
     },
     credentialKeys,
   ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.S3,
-    {},
-    autocomplete.S3,
-    credentialKeys,
-  ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.IAM,
-    {},
-    autocomplete.IAM,
-    credentialKeys,
-  ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.KMS,
-    {},
-    autocomplete.KMS,
-    credentialKeys,
-  ),
+  ...awsPluginLibrary.bootstrap(AWS.S3, {}, autocomplete.S3, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.IAM, {}, autocomplete.IAM, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.KMS, {}, autocomplete.KMS, credentialKeys),
 };
