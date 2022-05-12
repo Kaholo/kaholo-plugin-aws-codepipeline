@@ -31,6 +31,8 @@ async function listPipelines(codePipelineClient) {
   const pipelines = await fetchRecursively(codePipelineClient, {
     methodName: "listPipelines",
     outputDataPath: "pipelines",
+  }).catch((error) => {
+    throw new Error(`Failed to list pipelines: ${error.message || JSON.stringify(error)}`);
   });
 
   return { pipelines };
