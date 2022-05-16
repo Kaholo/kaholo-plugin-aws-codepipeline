@@ -22,51 +22,6 @@ async function fetchRecursively(awsClient, fetchOptions = {}, payload = {}) {
   return fetchedItems.concat(recursiveItems);
 }
 
-function parseAwsTags(tagsInput) {
-  if (_.isNil(tagsInput)) {
-    return [];
-  }
-
-  if (_.isArray(tagsInput)) {
-    validateAwsTags(tagsInput);
-    return tagsInput;
-  }
-
-  if (_.isPlainObject(tagsInput)) {
-    return _.entries(tagsInput).map(mapEntryToAwsTag);
-  }
-
-  if (_.isString(tagsInput)) {
-    const lines = removeWhitespaceAndSplitLines(tagsInput);
-    const parsedLines = lines.map((line) => {
-      const [tagKey, ...tagValueSegments] = line.split("=");
-      return [tagKey, tagValueSegments.join("=")];
-    });
-    return parsedLines.map(mapEntryToAwsTag);
-  }
-
-  throw new Error(`Tags "${JSON.stringify(tagsInput)}" are in unsupported format. Supported formats are: array, object, string.`);
-}
-
-function validateAwsTags(tags) {
-  const invalidTag = tags.some((tag) => !tag.Key);
-  if (invalidTag) {
-    throw new Error(`Tag "${JSON.stringify(invalidTag)}" is in bad AWS format.`);
-  }
-}
-
-function mapEntryToAwsTag([entryKey, entryValue]) {
-  return { key: entryKey, value: entryValue };
-}
-
-function removeWhitespaceAndSplitLines(text) {
-  return text
-    .trim()
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
 async function resolveJsonConfigurationParam(jsonConfigParam) {
   if (_.isPlainObject(jsonConfigParam)) {
     return jsonConfigParam;
@@ -127,7 +82,6 @@ function mergePipelineConfigurations(originalConfig, newConfig) {
 }
 
 module.exports = {
-  parseAwsTags,
   resolveJsonConfigurationParam,
   mergePipelineConfigurations,
   fetchRecursively,

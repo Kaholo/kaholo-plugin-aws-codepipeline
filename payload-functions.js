@@ -1,4 +1,4 @@
-const { parseAwsTags, resolveJsonConfigurationParam } = require("./helpers");
+const { resolveJsonConfigurationParam } = require("./helpers");
 
 function prepareCreatePipelinePayload(params) {
   if (params.stages) {
@@ -23,7 +23,7 @@ function prepareCreatePipelinePayload(params) {
       stages: params.stages,
       artifactStore,
     },
-    tags: parseAwsTags(params.tags),
+    tags: params.tags,
   };
 }
 

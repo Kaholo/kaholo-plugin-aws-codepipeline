@@ -132,6 +132,7 @@
           "name": "tags",
           "viewName": "Tags",
           "type": "text",
+          "parserType": "tags",
           "description": "If specified, tag the pipeline with the tags specified. Each tag should either be in the format of Key=Value or just Key. To enter multiple values separate each with a new line. Also accepts getting an array of objects in the form of { Key, Value } or { Key }.",
           "placeholder": "DEV_APPS\nAuthor=My Name",
           "learnUrl": "https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-tag-repository.html"
