@@ -1,14 +1,21 @@
 {
-	"name": "kaholo-plugin-aws-codepipeline",
-	"version": "1.0.4",
-	"description": "Kaholo plugin for integration with AWS CodePipeline API.",
-	"main": "app.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "Kaholo Group",
-	"license": "ISC",
-	"dependencies": {
-		"aws-sdk": "^2.1028.0"
-	}
+  "name": "kaholo-plugin-aws-codepipeline",
+  "description": "Kaholo plugin for integration with AWS CodePipeline API.",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
+  },
+  "author": "Kaholo Group",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "2.1028.0",
+    "kaholo-aws-plugin-library": "github:Kaholo/aws-plugin-library#v1.0.2",
+    "lodash": "4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
+  }
 }
